@@ -36,7 +36,7 @@ btnStart.addEventListener('click', () => {
     const timeDiff = selectedDate - new Date();
     startCountdown(timeDiff);
   } else {
-    return Notify.failure('Please choose a date in the future');
+    Notify.failure('Please choose a date in the future');
   }
 });
 
