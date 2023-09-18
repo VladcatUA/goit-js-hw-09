@@ -3,13 +3,14 @@ import "flatpickr/dist/flatpickr.min.css";
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
 const inputTime = document.getElementById('datetime-picker');
-const btnStart = document.querySelector('button[data-start]');
+const btStart = document.querySelector('button[data-start]');
 const tDays = document.querySelector('span[data-days]');
 const tHours = document.querySelector('span[data-hours]');
 const tMinutes = document.querySelector('span[data-minutes]');
 const tSeconds = document.querySelector('span[data-seconds]');
 
 let countdownInterval; 
+btStart.setAttribute("disabled", true);
 
 const options = {
   enableTime: true,
@@ -19,21 +20,21 @@ const options = {
   onClose(selectedDates) {
     const selectedDate = selectedDates[0];
 
-    if (selectedDate && selectedDate > new Date()) {
-      btnStart.removeAttribute('disabled');
+    if (selectedDate > Date.now()) {
+      btStart.removeAttribute('disabled');
     } else {
-      btnStart.setAttribute('disabled', true);
+      Notify.failure('Please choose a date in the future');
     }
   },
 };
 
 const calendar = flatpickr(inputTime, options);
 
-btnStart.addEventListener('click', () => {
+btStart.addEventListener('click', () => {
   const selectedDate = calendar.selectedDates[0];
 
-  if (selectedDate && selectedDate > new Date()) {
-    const timeDiff = selectedDate - new Date();
+  if (selectedDate > Date.now()) {
+    const timeDiff = selectedDate - Date.now();
     startCountdown(timeDiff);
   } else {
     Notify.failure('Please choose a date in the future');
